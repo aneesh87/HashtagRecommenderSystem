@@ -8,13 +8,13 @@ To access Spark Cluster UI: http://152.46.19.126:8080
 
 **Pending Tasks**
 
-1. Run Spark job on 2.5 days of data
+1. Run Spark job on 2.5 days of data -- Done!
 2. Clean hadoop cluster
 3. Add 3.5 days of data
 4. Run Spark job on 3.5 days of data
-5. Analyze trends (top trending hastags) filter them and store in CSV
-6. Setup Solr cluster 3 nodes should be more than sufficient
-7. Index terding tags' csv into Solr
+5. Analyze trends (top trending hastags) filter them and store in CSV --Done
+6. Setup Solr cluster 3 nodes should be more than sufficient --Sanket is working on finializing it on a single node.
+7. Index terding tags' csv into Solr  --Prototype ready
 8. Develop Front End UI and query Solr for suggestions.
 
 **Preliminary Results**
@@ -23,6 +23,7 @@ Preprocessing tweets for day 1 on single machine with 8GB RAM 6 Cores 256GB SSD:
 
 Preprocessing tweets for day 1 in distributed Spark Cluster 5 ndoes: **5 mins**
 
-Tweets preprocessed for day 1: **2,675,732** 
+Tweets preprocessed for day 1: **2,675,732**, **8.6GB**
 
 Tweets to analyze after preprocessing day 1: **354,172**
+
