@@ -8,14 +8,15 @@ To access Spark Cluster UI: http://152.46.19.126:8080
 
 **Pending Tasks**
 
-1. Run Spark job on 2.5 days of data -- Done!
-2. Clean hadoop cluster
-3. Add 3.5 days of data
-4. Run Spark job on 3.5 days of data
-5. Analyze trends (top trending hastags) filter them and store in CSV --Done
-6. Setup Solr cluster 3 nodes should be more than sufficient --Sanket is working on finializing it on a single node.
-7. Index terding tags' csv into Solr  --Prototype ready
-8. Develop Front End UI and query Solr for suggestions.
+1. Clean hadoop cluster
+2. Add 3.5 days of data
+3. Run Spark job on 3.5 days of data
+4. Analyze global trends (top trending hastags) filter them and store in CSV (text,hashtag,trend) format.
+5. Setup Solr cluster 3 nodes should be more than sufficient --important at this stage
+6. Index terding tags' csv into Solr  --Prototype ready
+7. Develop Front End UI and query Solr for suggestions.
+
+1. Solr part is ready and works on the single node machine. recomender-schema.xml is the solr schema file and also has the query that the UI should make inorder to get the recommeded hashtags.
 
 **Preliminary Results**
 
