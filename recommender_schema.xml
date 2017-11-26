@@ -1,0 +1,47 @@
+<!-- Author: Sanket Shahane svshahan@ncsu.edu -->
+<!-- Custom Solr Schema for HashTag Recommender -->
+<!-- Add the following lines to the Solr collection Schema before indexing the Data. -->
+  <!-- Adding customized field types -->
+  <fieldType class="solr.TextField" name="edge_ngram" positionIncrementGap="10" stored="false">
+    <analyzer type="index">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.EdgeNGramFilterFactory" maxGramSize="10" minGramSize="2"/>
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.EdgeNGramFilterFactory" maxGramSize="10" minGramSize="2"/>
+    </analyzer>
+  </fieldType>
+  <fieldType class="solr.TextField" name="ngram" positionIncrementGap="10" stored="false">
+    <analyzer type="index">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.NGramFilterFactory" maxGramSize="10" minGramSize="2"/>
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.NGramFilterFactory" maxGramSize="10" minGramSize="2"/>
+    </analyzer>
+  </fieldType>
+  <!-- Done adding field types -->
+  <field name="hashtag" type="text_general" multiValued="false" indexed="true" required="true" stored="true"/>
+  <field name="text" type="text_general" multiValued="false" indexed="true" required="true" stored="true"/>
+  <field name="trend" type="plong" multiValued="false" indexed="false" required="true" stored="true"/>
+  <field name="hashtag_ngram" type="ngram" multiValued="false" indexed="true" required="false" stored="true"/>
+  <field name="text_ngram" type="ngram" multiValued="false" indexed="true" required="false" stored="false"/>
+  <field name="text_edgegram" type="edge_ngram" multiValued="false" indexed="true" required="false" stored="false"/>
+  <copyField source="text" dest="text_ngram"/>
+  <copyField source="text" dest="text_edgegram"/>
+  <copyField source="hashtag" dest="hashtag_ngram"/>
+  <!-- Adding default search field name -->
+<!-- Done Adding Custom Schema -->
+
+<!-- 
+Query to make from the UI:
+For example if the user types:vote kca
+Below is the query to make just the &q= will change for a different query
+http://localhost:8983/solr/hashtagtrend/select?df=hashtag&q=vote%20kca&sort=trend%20desc&wt=json
+-->
