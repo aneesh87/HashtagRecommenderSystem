@@ -18,7 +18,7 @@ def main(sc):
     trend.write.csv("hdfs://master:9000/data/grpahdata")
     sqlContext.registerDataFrameAsTable(df,"rawtable")
     sqlContext.registerDataFrameAsTable(trend,"trendtable")
-    outputDF = sql("select r._c0,r._c1,t.count from rawtable r, trendtable t where r._c1=t._c1").toDF('text','hashtag','trend')
+    outputDF = sqlContext.sql("select r._c0,r._c1,t.count from rawtable r, trendtable t where r._c1=t._c1").toDF('text','hashtag','trend')
     outputDF.write.csv("hdfs://master:9000/data/trend")
 
 if __name__ == "__main__":
@@ -27,4 +27,5 @@ if __name__ == "__main__":
     conf = conf.set("spark.submit.deployMode", "client")
     sc= SparkContext(conf=conf)
     spark = SparkSession(sc)
+    sqlContext = SQLContext(sc)
     main(sc)
