@@ -4,6 +4,7 @@
 # $spark-submit trendgenerator.py
 
 from pyspark import SparkConf, SparkContext
+from pyspark.sql.session import SparkSession
 import json
 import sys
 import re
@@ -25,4 +26,5 @@ if __name__ == "__main__":
     conf = conf.setMaster("spark://master:7077")
     conf = conf.set("spark.submit.deployMode", "client")
     sc= SparkContext(conf=conf)
+    spark = SparkSession(sc)
     main(sc)
