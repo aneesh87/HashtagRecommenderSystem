@@ -4,6 +4,7 @@
 # $spark-submit trendgenerator.py
 
 from pyspark import SparkConf, SparkContext
+from pyspark.sql import SQLContext
 from pyspark.sql.session import SparkSession
 import json
 import sys
