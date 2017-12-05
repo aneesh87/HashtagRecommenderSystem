@@ -4,6 +4,7 @@
 # $spark-submit trendgenerator.py
 
 from pyspark import SparkConf, SparkContext
+from pyspark.sql import SQLContext
 from pyspark.sql.session import SparkSession
 import json
 import sys
@@ -15,11 +16,11 @@ def main(sc):
     # Creating trending csv
     df = spark.read.csv("hdfs://master:9000/data/csv/*/part*")
     trend = df.groupBy('_c1').count()
-    trend.write.csv("hdfs://master:9000/data/grpahdata")
+    trend.coalesce(1).write.csv("hdfs://master:9000/data/graphdata")
     sqlContext.registerDataFrameAsTable(df,"rawtable")
     sqlContext.registerDataFrameAsTable(trend,"trendtable")
     outputDF = sqlContext.sql("select r._c0,r._c1,t.count from rawtable r, trendtable t where r._c1=t._c1").toDF('text','hashtag','trend')
-    outputDF.write.csv("hdfs://master:9000/data/trend")
+    outputDF.coalesce(1).write.csv("hdfs://master:9000/data/trend", header=True)
 
 if __name__ == "__main__":
     conf = SparkConf().setAppName(APP_NAME)
