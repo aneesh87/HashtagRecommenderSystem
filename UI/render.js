@@ -9,6 +9,26 @@ function on_data(data) {
     $('#results').prepend('<div>' + total + '</div>');
 }
 
+var sites = {
+  slave03: {
+    url: 'http://152.46.17.34:8983/solr/hashtagtrend/',
+    id: "slave03status"
+  },
+  slave04: {
+    url: 'http://152.46.18.227:8983/solr/hashtagtrend/',
+    id: "slave04status"
+  }
+};
+
+function checkStatusUsingAJAX(site) {
+  $.ajax(site.url).done(function() {
+    document.getElementById(site.id).innerHTML = "Up"
+  }).fail(function() {
+    document.getElementById(site.id).innerHTML = "Down"
+  });
+};
+
+
 function on_search() {
     $('#results').empty();
     var query = $('#query').val();
@@ -17,33 +37,21 @@ function on_search() {
         return;
     }
 
-    //var url='http://152.46.20.9:8983/solr/hashtagtrend/select?df=text&q=anime&wt=json';
-    //http://152.46.20.9:8983/solr/hashtagtrend/select?df=hashtag&q=anime&wt=json
-    var url='http://152.46.20.9:8983/solr/hashtagtrend/select?df=hashtag&q='+query+'&wt=json';
-    var url_ngram='http://152.46.20.9:8983/solr/hashtagtrend/select?df=hashtag_ngram&q='+query+'&wt=json';
-    var url_text='http://152.46.20.9:8983/solr/hashtagtrend/select?df=text&q='+query+'&wt=json';
+    var url='http://152.46.18.227:8983/solr/hashtagtrend/select?df=text&fl=hashtag&group.field=trend&group.main=true&group=true&q='+query+'&rows=10&wt=json';
+    var url_fault='http://152.46.17.34:8983/solr/hashtagtrend/select?df=text&fl=hashtag&group.field=trend&group.main=true&group=true&q='+query+'&rows=10&wt=json';
+    var url_ngram='http://152.46.18.227:8983/solr/hashtagtrend/select?df=hashtag_ngram&q='+query+'&rows=10&sort=trend%20desc&wt=json';
+    var url_text='http://152.46.18.227:8983/solr/hashtagtrend/select?df=text&q='+query+'&rows=10&sort=trend%20desc&wt=json';
     
     var mySet = new Set();
     var mySet_engram = new Set();
     var mySet_text = new Set();
-    //mySet.add(1);
-
-    //console.log("mySet"+mySet.size);
 
     $.getJSON(url, function(data){
         if(data.response.docs.length > 0)
         {
             for (var i=0; i<data.response.docs.length; i++) {
                 var doc = data.response.docs[i];
-                //console.log(doc.hashtag);
-                mySet.add(doc.hashtag);
-                //console.log(mySet.size);
-                //printSet(mySet);
-                //$("#results").append(doc.hashtag + "<br />");
-            }
-            for (let item of mySet){
-                console.log(item);
-                $("#results").append(item + "<br />");
+                $("#results").append(doc.hashtag + "<br />");
             }  
         }
         else
@@ -67,11 +75,7 @@ function on_search() {
                     $.getJSON(url_ngram, function(data_engram){
                         for (var i=0; i<data_engram.response.docs.length; i++) {
                         var doc_engram = data_engram.response.docs[i];
-                        //console.log(doc.hashtag);
                         mySet_engram.add(doc_engram.hashtag);
-                        //console.log(mySet.size);
-                        //printSet(mySet);
-                        //$("#results").append(doc.hashtag + "<br />");
                         }
                         for (let item of mySet_engram){
                             console.log(item);
@@ -83,6 +87,17 @@ function on_search() {
             
         }
     });
+    /*.success(function() { console.log("success 2"); })
+    .error(function() { 
+        //alert("error occurred ");
+        $.getJSON(url_fault, function(data_fault){
+            for (var i=0; i<data_fault.response.docs.length; i++) {
+                var doc_fault = data_fault.response.docs[i];
+                $("#results").append(doc_fault.hashtag + "<br />");
+            }
+        });
+    })
+    .complete(function() { console.log("Done"); });*/
     //console.log("mySet"+mySet.size);
     
     /*if(mySet.size > 0)
