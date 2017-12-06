@@ -6,17 +6,17 @@ To access Hadoop Cluster UI: http://152.46.19.126:50070
 
 To access Spark Cluster UI: http://152.46.19.126:8080
 
-**Pending Tasks**
+To access Solr UI: http://152.46.18.227:8983/solr/
+
+**Completed Tasks**
 
 1. Clean hadoop cluster
-2. Add 3.5 days of data
-3. Run Spark job on 3.5 days of data
+2. Added 2.5 days of data
+3. Ran Spark job on all the data
 4. Analyze global trends (top trending hastags) filter them and store in CSV (text,hashtag,trend) format.
-5. Setup Solr cluster 3 nodes should be more than sufficient --important at this stage
-6. Index terding tags' csv into Solr  --Prototype ready
-7. Develop Front End UI and query Solr for suggestions.
-
-1. Solr part is ready and works on the single node machine. recomender-schema.xml is the solr schema file and also has the query that the UI should make inorder to get the recommeded hashtags.
+5. Setup Solr cluster on 2 nodes and Zookeeper on one
+6. Index terding tags' csv into Solr 
+7. Developed Front End UI and query Solr for suggestions.
 
 **Preliminary Results**
 
